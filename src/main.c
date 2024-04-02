@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <time.h>
+#include <malloc.h>
 
 // DOB - date of birth
 
@@ -9,8 +10,9 @@ struct tm *getCurrentDate() {
     return currentDate;
 }
 
-int daysAlive(struct tm *currentDate, struct tm *userDOB) {
+int daysAlive(struct tm *userDOB) {
     // return days alive
+    struct tm *currentDate = getCurrentDate();
     return 0;
 }
 
@@ -20,58 +22,53 @@ int hoursAlive(struct tm *userDOB) {
     return 0;
 }
 
-int minutesAlive(struct tm *currentDate, struct tm *userDOB) {
+int minutesAlive(struct tm *userDOB) {
     // return minutes alive
+    struct tm *currentDate = getCurrentDate();
     return 0;
 }
 
 int fileWithDOBExists() {
     FILE *file;
-    if ((file = fopen("userdob.txt", "r"))) {
+    if ((file = fopen("userdob.dat", "rb"))) {
         fclose(file);
         return 1;
     }
     return 0;
 }
 
-int isFileWithDOBProper() {
-    return 1;
+struct tm *readDateFromFile() {
+    FILE *file;
+    if ((file = fopen("userdob.dat", "rb"))) {
+        struct tm *userDOB = malloc(sizeof(struct tm));
+        fread(userDOB, sizeof(struct tm), 1, file);
+        fclose(file);
+        return userDOB;
+    }
+    return NULL;
 }
 
-const struct tm *parseDateFromFile() {
-    struct tm *temp = getCurrentDate();
-    return temp;
-}
-
-const struct tm *getInputUserDOB() {
+struct tm *getInputUserDOB() {
     return NULL;
 }
 
 void createDOBFile() {
     FILE *file;
-    const struct tm *userDOB = getInputUserDOB();
-    file = fopen("userdob.txt", "w");
-    fprintf(file, "%s", asctime(userDOB));
+    const struct tm *userDOB = getCurrentDate();
+    file = fopen("userdob.dat", "wb");
+    fwrite(userDOB, sizeof(*userDOB), 1, file);
     fclose(file);
 }
 
-
-
-const struct tm *getUserDOB() {
-    // for now user dob will be current date
-    if(fileWithDOBExists() && isFileWithDOBProper())
-        return parseDateFromFile();
+struct tm *getUserDOB() {
+    if(fileWithDOBExists())
+        return readDateFromFile();
     createDOBFile();
     return getUserDOB();
-
-    // should also check if date in file is proper if not then create new file from prompt
-    // here will call function to get dob from file instead of returning null
-    // return getUserDOBFromFile
-    // will call function to get userDOB from prompt
-    // if file exists but date is not proper then it should be overwritten by proper date
 }
 
 int main() {
-    getUserDOB();
+    struct tm *test = getUserDOB();
+    printf("%s", asctime(test));
     return 0;
 }
