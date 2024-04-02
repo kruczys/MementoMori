@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <time.h>
 
+// DOB - date of birth
+
 int daysAlive(struct tm *currentDate, struct tm *userDOB) {
     // return days alive
     return 0;
@@ -25,8 +27,11 @@ int fileWithDOBExists() {
     return 0;
 }
 
-void createDOBFile() {
-
+void createDOBFile(struct tm * userDOB) {
+    FILE *file;
+    file = fopen("userdob.txt", "w");
+    fprintf(file, "%s", "hewwo");
+    fclose(file);
 }
 
 struct tm *getCurrentDate() {
@@ -35,13 +40,12 @@ struct tm *getCurrentDate() {
     return currentDate;
 }
 
-struct tm *getUserDOB() {
-    // look for file with dob if doesnt exist ask user for dob and create file
-    // return parsed dob as struct tm
-    time_t now = time(NULL);
-    struct tm *tempDate = localtime(&now);
-    return tempDate;
-}
+//const struct tm *getUserDOB() {
+//    if (fileWithDOBExists())
+//        return NULL;
+//    createDOBFile();
+//    return getUserDOB();
+//}
 
 int main() {
     struct tm *date = getCurrentDate();
