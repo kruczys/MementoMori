@@ -3,4 +3,4 @@ project(MementoMori C)
 
 set(CMAKE_C_STANDARD 23)
 
-add_executable(MementoMori main.c)
+add_executable(MementoMori src/main.c)

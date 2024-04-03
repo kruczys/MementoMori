@@ -10,22 +10,31 @@ struct tm *getCurrentDate() {
     return currentDate;
 }
 
+double getTimeDiff(struct tm *userDOB) {
+    time_t timeToday = mktime(getCurrentDate());
+    time_t timeAtBirth = mktime(userDOB);
+    double timeDiffSecs = difftime(timeToday, timeAtBirth);
+    return timeDiffSecs;
+}
+
 int daysAlive(struct tm *userDOB) {
-    // return days alive
-    struct tm *currentDate = getCurrentDate();
-    return 0;
+    double timeDiff = getTimeDiff(userDOB);
+    return timeDiff / (60 * 60 * 24);
 }
 
 int hoursAlive(struct tm *userDOB) {
-    // return hours alive
-    struct tm *currentDate = getCurrentDate();
-    return 0;
+    double timeDiff = getTimeDiff(userDOB);
+    return timeDiff / (60 * 60);
 }
 
 int minutesAlive(struct tm *userDOB) {
-    // return minutes alive
-    struct tm *currentDate = getCurrentDate();
-    return 0;
+    double timeDiff = getTimeDiff(userDOB);
+    return timeDiff / 60;
+}
+
+int secondsAlive(struct tm *userDOB) {
+    double timeDiff = getTimeDiff(userDOB);
+    return timeDiff;
 }
 
 int fileWithDOBExists() {
@@ -49,12 +58,18 @@ struct tm *readDateFromFile() {
 }
 
 struct tm *getInputUserDOB() {
-    return NULL;
+    struct tm *userDOB = malloc(sizeof(struct tm));
+    scanf("%d %d %d", &userDOB->tm_year, &userDOB->tm_mon, &userDOB->tm_mday);
+    userDOB->tm_year -= 1900;
+    userDOB->tm_mon -= 1;
+    userDOB->tm_hour = 0;
+    userDOB->tm_min = 0;
+    userDOB->tm_sec = 0;
 }
 
 void createDOBFile() {
     FILE *file;
-    const struct tm *userDOB = getCurrentDate();
+    const struct tm *userDOB = getInputUserDOB();
     file = fopen("userdob.dat", "wb");
     fwrite(userDOB, sizeof(*userDOB), 1, file);
     fclose(file);
@@ -68,7 +83,11 @@ struct tm *getUserDOB() {
 }
 
 int main() {
-    struct tm *test = getUserDOB();
-    printf("%s", asctime(test));
-    return 0;
+    struct tm *userDOB = getUserDOB();
+    int days = daysAlive(userDOB);
+    int hours = hoursAlive(userDOB);
+    int minutes = minutesAlive(userDOB);
+    int seconds = secondsAlive(userDOB);
+    printf("You have been alive for %d days, %d hours, %d minutes, or %d seconds\n", days, hours, minutes, seconds);
+    puts("How many of those have you wasted?");
 }
