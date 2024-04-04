@@ -7,4 +7,4 @@ struct tm *readDateFromFile();
 struct tm *getInputUserDOB();
 struct tm *getUserDOB();
 
-#endif //MEMENTOMORI_FILE_MANAGE_H
+#endif

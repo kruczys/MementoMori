@@ -2,7 +2,7 @@
 #include "file_manage.c"
 
 int main() {
-    const struct tm *userDOB = getUserDOB();
+    struct tm *userDOB = getUserDOB();
     int days = daysAlive(userDOB);
     int hours = hoursAlive(userDOB);
     int minutes = minutesAlive(userDOB);

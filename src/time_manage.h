@@ -8,4 +8,4 @@ int hoursAlive(struct tm *userDOB);
 int minutesAlive(struct tm *userDOB);
 int secondsAlive(struct tm *userDOB);
 
-#endif //MEMENTOMORI_TIME_MANAGE_H
+#endif
