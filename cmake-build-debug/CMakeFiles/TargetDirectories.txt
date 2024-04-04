@@ -1,3 +1,0 @@
-/home/konrad/CLionProjects/MementoMori/cmake-build-debug/CMakeFiles/MementoMori.dir
-/home/konrad/CLionProjects/MementoMori/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/konrad/CLionProjects/MementoMori/cmake-build-debug/CMakeFiles/rebuild_cache.dir
